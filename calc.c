@@ -50,7 +50,7 @@ int main(void)
 		printf("Choose operation (or -1 to quit) : ");
 		scanf(" %d",&op); 
 		if (op == -1)
-			exit(1);
+			break;
 		if (op > -1 && op < sizedir){
 			sprintf(libdir,"./plugins/lib%s.so",oper[op]);
 			printf("%s\n",libdir);
