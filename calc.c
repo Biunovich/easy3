@@ -17,7 +17,7 @@ int main(void)
 	int i=0,j,sizedir,op;
 	void *dis;
 	DIR * dir;
-	char **oper;
+	char **oper,**oper1;
 	struct dirent *entry;
 	dir = opendir("./plugins");
 	while ( (entry = readdir(dir)) != NULL)
@@ -36,7 +36,7 @@ int main(void)
 		if (entry->d_name[0] != '.')
 			oper[j++] = entry->d_name;
 	}
-	oper = split(oper,sizedir);
+	oper1 = split(oper,sizedir);
 	printf("\n----------------------------\n");
 	Comlex (*funk)(Comlex,Comlex);
 	while(1)
@@ -46,13 +46,13 @@ int main(void)
 		printf("Enter second complex number: ");
 		scanf("%lf%lf",&second.Re,&second.Im);
 		for (i=0;i<sizedir;i++)
-			printf("%d) %s\n",i,oper[i]);
+			printf("%d) %s\n",i,oper1[i]);
 		printf("Choose operation (or -1 to quit) : ");
 		scanf(" %d",&op); 
 		if (op == -1)
 			break;
 		if (op > -1 && op < sizedir){
-			sprintf(libdir,"./plugins/lib%s.so",oper[op]);
+			sprintf(libdir,"./plugins/lib%s.so",oper1[op]);
 			printf("%s\n",libdir);
 			dis = dlopen(libdir,RTLD_NOW);
 			funk = dlsym(dis,"run");
@@ -68,5 +68,8 @@ int main(void)
 	for (i=0;i<sizedir;i++)
 		free(oper[i]);
 	free(oper);
+	for (i=0;i<sizedir;i++)
+		free(oper1[i]);
+	free(oper1);
     return 0;
 }
