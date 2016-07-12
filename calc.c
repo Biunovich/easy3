@@ -48,8 +48,10 @@ int main(void)
 		scanf("%lf%lf",&second.Re,&second.Im);
 		for (i=0;i<sizedir;i++)
 			printf("%d) %s\n",i,oper[i]);
-		printf("Choose operation: ");
+		printf("Choose operation (or -1 to quit) : ");
 		scanf(" %d",&op); 
+		if (op == -1)
+			exit(1);
 		sprintf(libdir,"./plugins/lib%s.so",oper[op]);
         printf("%s\n",libdir);
         dis = dlopen(libdir,RTLD_NOW);
