@@ -3,10 +3,8 @@ char ** split(char ** oper,int size)
 {
 	int i,j;
 	char ** oper1 = calloc(sizeof(char*),size);
-	for (i=0;i<size;i++)
+	for (i=0;i<size;i++){
 		oper1[i] = calloc(sizeof(char),10);
-	for (i=0;i<size;i++)
-	{
 		for (j=3;oper[i][j]!='.';j++)
 			oper1[i][j-3] = oper[i][j];
 	}
@@ -39,15 +37,8 @@ int main(void)
 		if (entry->d_name[0] != '.')
 		    oper[j++] = entry->d_name;
 	}
-	sizedir = j;
-	printf("\n");
 	oper = split(oper,sizedir);
-	for (j=0;j<sizedir;j++)
-	    printf("%s\n",oper[j]);
     printf("\n----------------------------\n");
-
-
-	dis = dlopen("./libcalc.so",RTLD_NOW);
 	Comlex (*funk)(Comlex,Comlex);
 	while(1)
 	{
