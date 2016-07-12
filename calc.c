@@ -58,5 +58,10 @@ int main(void)
         funk = dlsym(dis,"run");
         result = funk(first,second);
 		printf("Result %lf %lf\n",result.Re,result.Im);
+		dlclose(dis);
 	}
+	for (i=0;i<sizedir;i++)
+		free(oper[i]);
+	free(oper);
+
 }
