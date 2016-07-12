@@ -13,9 +13,8 @@ char ** split(char ** oper,int size)
 int main(void)
 {
 	Comlex first,second,result;
-	int op;
 	char libdir[20];
-	int i=0,j,sizedir;
+	int i=0,j,sizedir,op;
 	void *dis;
 	DIR * dir;
 	char **oper;
@@ -24,7 +23,7 @@ int main(void)
 	while ( (entry = readdir(dir)) != NULL)
 	{
 		if (entry->d_name[0] != '.')
-		    printf("\n%d %s",i++,entry->d_name);
+			printf("\n%d %s",i++,entry->d_name);
 	}
 	sizedir = i;
 	oper = calloc(sizeof(char*),i);
@@ -35,10 +34,10 @@ int main(void)
 	while ( (entry = readdir(dir)) != NULL)
 	{
 		if (entry->d_name[0] != '.')
-		    oper[j++] = entry->d_name;
+			oper[j++] = entry->d_name;
 	}
 	oper = split(oper,sizedir);
-    printf("\n----------------------------\n");
+	printf("\n----------------------------\n");
 	Comlex (*funk)(Comlex,Comlex);
 	while(1)
 	{
@@ -52,16 +51,22 @@ int main(void)
 		scanf(" %d",&op); 
 		if (op == -1)
 			exit(1);
-		sprintf(libdir,"./plugins/lib%s.so",oper[op]);
-        printf("%s\n",libdir);
-        dis = dlopen(libdir,RTLD_NOW);
-        funk = dlsym(dis,"run");
-        result = funk(first,second);
-		printf("Result %lf %lf\n",result.Re,result.Im);
-		dlclose(dis);
+		if (op > -1 && op < sizedir){
+			sprintf(libdir,"./plugins/lib%s.so",oper[op]);
+			printf("%s\n",libdir);
+			dis = dlopen(libdir,RTLD_NOW);
+			funk = dlsym(dis,"run");
+			result = funk(first,second);
+			printf("Result %lf %lf\n",result.Re,result.Im);
+			dlclose(dis);
+		}
+		else 
+		{
+			printf("Invalid operation\n");
+		}
 	}
 	for (i=0;i<sizedir;i++)
 		free(oper[i]);
 	free(oper);
-
+    return 0;
 }
